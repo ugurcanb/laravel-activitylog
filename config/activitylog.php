@@ -25,6 +25,8 @@ return [
      */
     'default_auth_driver' => null,
 
+    'default_only_dirty' => false,
+
     /*
      * If set to true, the subject returns soft deleted models.
      */

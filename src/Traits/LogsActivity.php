@@ -35,20 +35,15 @@ trait LogsActivity
 
                 $attrs = $model->attributeValuesToBeLogged($eventName);
 
-                if ($model->isLogEmpty($attrs) && ! $model->shouldSubmitEmptyLogs()) {
+                if ($model->isLogEmpty($attrs)) {
                     return;
                 }
 
-                $logger = app(ActivityLogger::class)
-                    ->useLog($logName)
+                app(ActivityLogger::class)
+                    ->useLog($model->getTable())
                     ->performedOn($model)
-                    ->withProperties($attrs);
-
-                if (method_exists($model, 'tapActivity')) {
-                    $logger->tap([$model, 'tapActivity'], $eventName);
-                }
-
-                $logger->log($description);
+                    ->withProperties($attrs)
+                    ->log($description);
             });
         });
     }
